@@ -1,12 +1,14 @@
 package edu.swe.group10.restapi.API.Model;
 
+import org.slf4j.Logger;
+
 import edu.swe.group10.restapi.AppLogger;
 
 public class User {
   private String nNumber;
   private String name;
 
-  private AppLogger myLogger = AppLogger.getInstance();
+  private Logger logger = AppLogger.getInstance().getLogger();
 
   public User(String nNumber, String name) {
     this.nNumber = nNumber;
@@ -22,7 +24,7 @@ public class User {
       this.nNumber = nNumber;
     }
     else {
-      myLogger.getLogger().error("N-Number input is in the incorrect format: {}", nNumber);
+      logger.error("N-Number input is in the incorrect format: {}", nNumber);
     }
   }
 
