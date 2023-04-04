@@ -7,12 +7,21 @@ import edu.swe.group10.restapi.AppLogger;
 public class User {
   private String nNumber;
   private String name;
+  private String imageUrl;
 
   private Logger logger = AppLogger.getInstance().getLogger();
 
   public User(String nNumber, String name) {
     this.nNumber = nNumber;
     this.name = name;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 
   public String getnNumber() {
