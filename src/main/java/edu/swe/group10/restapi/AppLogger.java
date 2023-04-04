@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AppLogger {
-  public Logger logger;
+  private Logger logger;
 
   private static AppLogger instance;
 
@@ -23,5 +23,9 @@ public class AppLogger {
 
   public static AppLogger getInstance() {
     return instance;
+  }
+
+  public Logger getLogger() {
+    return logger;
   }
 }

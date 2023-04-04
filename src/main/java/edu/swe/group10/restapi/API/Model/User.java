@@ -18,11 +18,11 @@ public class User {
   }
 
   public void setnNumber(String nNumber) {
-    if(nNumber.matches("^[nN][0-9]{8}$")){
+    if(nNumber.matches("^[nN]\\d{8}$")){
       this.nNumber = nNumber;
     }
     else {
-      myLogger.logger.error("N-Number input is in the incorrect format: {}", nNumber);
+      myLogger.getLogger().error("N-Number input is in the incorrect format: {}", nNumber);
     }
   }
 
