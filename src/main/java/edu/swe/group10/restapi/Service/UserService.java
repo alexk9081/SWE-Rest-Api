@@ -1,8 +1,5 @@
 package edu.swe.group10.restapi.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
