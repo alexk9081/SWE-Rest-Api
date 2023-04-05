@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import edu.swe.group10.restapi.AppLogger;
 import edu.swe.group10.restapi.API.Model.User;
 
+/**
+ * This class will handle the implementation of database queries
+ */
 @Service
 public class UserService {
 

@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 
 import edu.swe.group10.restapi.AppLogger;
 
+/**
+ * This class defines the data that will be returned
+ */
 public class User {
   private String nNumber;
   private String name;
