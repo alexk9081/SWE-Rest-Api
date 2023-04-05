@@ -1,9 +1,12 @@
 package edu.swe.group10.restapi.Service;
 
+import java.sql.Connection;
+
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import edu.swe.group10.restapi.AppLogger;
+import edu.swe.group10.restapi.DatabaseConnection;
 import edu.swe.group10.restapi.API.Model.User;
 
 /**
@@ -12,20 +15,24 @@ import edu.swe.group10.restapi.API.Model.User;
 @Service
 public class UserService {
 
-  private Logger logger = AppLogger.getInstance().getLogger();
+  private Logger logger;
+  private Connection conn;
 
   public UserService() {
-    connectDatabase();
+    logger = AppLogger.getInstance().getLogger();
+    conn = DatabaseConnection.getInstance().getConnection();
   }
 
-  private void connectDatabase() {
-    //TODO
-  }
-  
   public User getUser(String nNumber) {
     logger.info("User ({}) was requested", nNumber);
 
-    User result = new User("n01450313", "Alex Keo");
+    try {
+      conn.prepareStatement("SELECT blah blah blah");
+    } catch (Exception e) {
+      logger.error("SQL EXCEPTION: {}", e.toString());
+  }
+
+    User result = new User(nNumber, "Alex Keo");
     return result;
   }
 }
