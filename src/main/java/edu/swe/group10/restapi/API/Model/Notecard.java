@@ -1,32 +1,32 @@
 package edu.swe.group10.restapi.API.Model;
 
 public class Notecard {
-  private String id;
-  private String name;
+  private String setid;
+  private String noteid;
   private String question;
   private String answer;
 
-  public Notecard(String id, String name, String question, String answer, String setID) {
-    this.id = id;
-    this.name = name;
+  public Notecard(String noteID, String question, String answer, String setID) {
+    this.setid = setID;
+    this.noteid = noteID;
     this.question = question;
     this.answer = answer;
   }
 
-  public String getId() {
-    return this.id;
+  public String getSetId() {
+    return this.setid;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setSetId(String setid) {
+    this.setid = setid;
   }
 
-  public String getName() {
-    return this.name;
+  public String getNoteId() {
+    return this.noteid;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setNoteId(String noteid) {
+    this.noteid = noteid;
   }
 
   public String getQuestion() {

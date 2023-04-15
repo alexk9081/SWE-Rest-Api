@@ -4,9 +4,6 @@ import org.slf4j.Logger;
 
 import edu.swe.group10.restapi.AppLogger;
 
-/**
- * This class defines the data that will be returned
- */
 public class User {
   private String nNumber;
   private String name;
@@ -14,9 +11,10 @@ public class User {
 
   private Logger logger = AppLogger.getInstance().getLogger();
 
-  public User(String nNumber, String name) {
+  public User(String nNumber, String name, String url) {
     this.nNumber = nNumber;
     this.name = name;
+    this.imageUrl = url;
   }
 
   public String getImageUrl() {
@@ -32,10 +30,9 @@ public class User {
   }
 
   public void setnNumber(String nNumber) {
-    if(nNumber.matches("^[nN]\\d{8}$")){
+    if (nNumber.matches("^[nN]\\d{8}$")) {
       this.nNumber = nNumber;
-    }
-    else {
+    } else {
       logger.error("N-Number input is in the incorrect format: {}", nNumber);
     }
   }

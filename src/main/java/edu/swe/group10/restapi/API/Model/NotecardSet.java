@@ -1,6 +1,7 @@
 package edu.swe.group10.restapi.API.Model;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class NotecardSet {
   private String id;
@@ -10,7 +11,6 @@ public class NotecardSet {
   private String description;
   private List<Notecard> notecards;
 
-
   public NotecardSet(String id, String name, boolean isPublic, String nNumber, String description, List<Notecard> notecards) {
     this.id = id;
     this.name = name;
@@ -19,7 +19,6 @@ public class NotecardSet {
     this.description = description;
     this.notecards = notecards;
   }
-
 
   public String getId() {
     return this.id;
@@ -69,7 +68,7 @@ public class NotecardSet {
     return this.notecards;
   }
 
-  public void setNotecards(List<Notecard> notecards) {
+  public void setNotecards(ArrayList<Notecard> notecards) {
     this.notecards = notecards;
   }
 

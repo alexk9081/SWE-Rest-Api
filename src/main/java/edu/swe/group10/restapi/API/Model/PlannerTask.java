@@ -9,8 +9,8 @@ public class PlannerTask {
   private String repeatValue;
   private String userID;
 
-
-  public PlannerTask(String startDate, String endDate, String taskSubject, String description, boolean allDayTrigger, String repeatValue, String userID) {
+  public PlannerTask(String startDate, String endDate, String taskSubject, String description, boolean allDayTrigger,
+      String repeatValue, String userID) {
     this.startDate = startDate;
     this.endDate = endDate;
     this.taskSubject = taskSubject;
@@ -19,7 +19,6 @@ public class PlannerTask {
     this.repeatValue = repeatValue;
     this.userID = userID;
   }
-
 
   public String getStartDate() {
     return this.startDate;
