@@ -46,6 +46,9 @@ public class PlannerTaskService {
       boolean allDayTrigger, String repeatValue) {
     String allDayTriggerString = allDayTrigger ? "T" : "F";
 
+    logger.info(
+        "Creating planner task for {}, with info startDate: {}, endDate: {}, taskSubject: {}, allDay: {}, repeat: {}",
+        userID, startDate, endDate, taskSubject, allDayTriggerString, repeatValue);
     try {
       PreparedStatement pstmt = conn.prepareStatement(
           "INSERT INTO PLANNER_TASK (User_ID, Start_Date, End_Date, Task_Subject, all_day_trigger, description, repeat_value) "
@@ -60,11 +63,11 @@ public class PlannerTaskService {
 
       int rows = pstmt.executeUpdate();
 
-      System.out.println("Rows inserted: " + rows);
+      logger.info("Rows inserted: {}", rows);
 
       return rows > 0 ? 0 : 1;
     } catch (SQLException e) {
-      System.out.println("Creating planner task was unsucessful.");
+      logger.error("Creating planner task was unsucessful.");
       e.printStackTrace();
       return 2;
     }
@@ -80,6 +83,8 @@ public class PlannerTaskService {
    * @return arrayListTasksall of the user's planner tasks
    */
   public List<PlannerTask> getAllPlannerTasks(String nNumber) {
+    logger.info("Getting all planner tasks for user {}", nNumber);
+
     PlannerTask task = null;
     List<PlannerTask> tasks = new ArrayList<>();
 
@@ -116,6 +121,7 @@ public class PlannerTaskService {
       return null;
     }
 
+    logger.info("Got {} tasks for user {}", tasks.size(), nNumber);
     return tasks;
   }
 
@@ -135,6 +141,10 @@ public class PlannerTaskService {
    * @return plannerTask an instance of plannerTask, null if no task is found
    */
   public PlannerTask getSpecificPlannerTask(String nNumber, String startDate, String endDate, String taskSubject) {
+    logger.info(
+        "Getting planner task for {}, with info startDate: {}, endDate: {}, taskSubject: {}",
+        nNumber, startDate, endDate, taskSubject);
+
     PlannerTask task = null;
 
     try {
@@ -188,6 +198,10 @@ public class PlannerTaskService {
    * @return
    */
   public int deletePlannerTask(String startDate, String endDate, String taskSubject, String userID) {
+    logger.info(
+        "Deleting planner task for {}, with info startDate: {}, endDate: {}, taskSubject: {}",
+        userID, startDate, endDate, taskSubject);
+
     try {
       PreparedStatement pstmt = conn.prepareStatement(
           "DELETE FROM PLANNER_TASK WHERE user_id = ? AND start_date = ? AND end_date = ? AND task_subject = ?");
@@ -237,6 +251,9 @@ public class PlannerTaskService {
   public void updatePlannerTask(String newStartDate,
       String newEndDate, String newTaskSubject, String startDate, String endDate, String taskSubject,
       String description, boolean allDayTrigger, String repeatValue, String userID) {
+    logger.info(
+        "Updating planner task for {}, with info startDate: {}, endDate: {}, taskSubject: {}",
+        userID, startDate, endDate, taskSubject);
 
     String allDayTriggerString = allDayTrigger ? "T" : "F";
 

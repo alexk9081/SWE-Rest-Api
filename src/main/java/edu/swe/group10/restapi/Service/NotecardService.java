@@ -41,6 +41,8 @@ public class NotecardService {
    * 
    */
   public int createNotecard(String setID, String noteID, String question, String answer) {
+    logger.info("Creating notecard {} in set {} with question {} and answer {}", noteID, setID, question, answer);
+
     try {
       PreparedStatement pstmt = conn
           .prepareStatement("INSERT INTO NOTECARD (set_ID, notecard_id, question, answer) " + "VALUES (?, ?, ?, ?) ");
@@ -74,6 +76,8 @@ public class NotecardService {
    *         notecard found
    */
   public Notecard getNotecard(String setID, String noteID) {
+    logger.info("Getting notecard {} from set {}", noteID, setID);
+
     Notecard notecard = null;
 
     try {
@@ -115,6 +119,7 @@ public class NotecardService {
    * @return
    */
   public int deleteNotecard(String setID, String noteID) {
+    logger.info("Deleting notecard {} from set {}", noteID, setID);
 
     try {
       PreparedStatement pstmt = conn.prepareStatement("DELETE FROM NOTECARD WHERE set_ID = ? AND notecard_ID = ?");
@@ -150,6 +155,7 @@ public class NotecardService {
    * @return
    */
   public int updateNotecard(String answer, String question, String noteID, String setID) {
+    logger.info("Updating notecard with id {} from set {}", noteID, setID);
     try {
       PreparedStatement pstmt = conn.prepareStatement(
           "UPDATE NOTECARD " + "SET Question = ?, Answer = ?" + "WHERE notecard_ID = ? AND set_ID = ? ");
