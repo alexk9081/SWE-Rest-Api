@@ -39,27 +39,33 @@ public class PlannerTaskService {
    *          the task subject
    * @param userID
    *          the nNumber
-   * @return 
+   * @return
+   * @return
    */
-  public int createPlannerTask(String startDate, String endDate, String taskSubject, String userID) {
-    //TODO Create is missing a lot of values
+  public int createPlannerTask(String startDate, String endDate, String taskSubject, String userID, String description,
+      boolean allDayTrigger, String repeatValue) {
+    String allDayTriggerString = allDayTrigger ? "T" : "F";
+
     try {
       PreparedStatement pstmt = conn.prepareStatement(
-          "INSERT INTO PLANNER_TASK (User_ID, Start_Date, End_Date, Task_Subject) " + "VALUES (?, ?, ?, ?) ");
+          "INSERT INTO PLANNER_TASK (User_ID, Start_Date, End_Date, Task_Subject, all_day_trigger, description, repeat_value) "
+              + "VALUES (?, ?, ?, ?, ?, ?, ?) ");
       pstmt.setString(1, userID);
       pstmt.setString(2, startDate);
       pstmt.setString(3, endDate);
       pstmt.setString(4, taskSubject);
+      pstmt.setString(5, allDayTriggerString);
+      pstmt.setString(6, description);
+      pstmt.setString(7, repeatValue);
 
       int rows = pstmt.executeUpdate();
 
-      logger.info("Rows inserted: {}", rows);
+      System.out.println("Rows inserted: " + rows);
 
-      return rows > 1 ? 0 : 1;
+      return rows > 0 ? 0 : 1;
     } catch (SQLException e) {
-      logger.error("Creating planner task was unsucessful.");
+      System.out.println("Creating planner task was unsucessful.");
       e.printStackTrace();
-      
       return 2;
     }
 
@@ -179,7 +185,7 @@ public class PlannerTaskService {
    *          the task's subject/name
    * @param userID
    *          the user's nNumber
-   * @return 
+   * @return
    */
   public int deletePlannerTask(String startDate, String endDate, String taskSubject, String userID) {
     try {
@@ -194,7 +200,7 @@ public class PlannerTaskService {
 
       logger.info("Rows deleted: {}", rows);
 
-      return rows > 1 ? 0 : 1;
+      return rows > 0 ? 0 : 1;
     } catch (SQLException e) {
       logger.error("Deleting planner task was unsucessful.");
       e.printStackTrace();

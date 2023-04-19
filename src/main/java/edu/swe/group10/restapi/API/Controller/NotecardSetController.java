@@ -62,34 +62,41 @@ public class NotecardSetController {
 
   @DeleteMapping("/user/delete")
   public ResponseEntity<Boolean> deleteNotecardSet(@RequestParam String nNumber, @RequestParam String id) {
-    // TODO Implement me
+    int res = notecardSetService.deleteNotecardSet(id);
 
-    return null;
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
+
+      case 1:
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+
+      case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @PostMapping("/user/create")
-  public ResponseEntity<Boolean> createUser(@RequestBody NotecardSet set) {
-    // Check if user exists
+  public ResponseEntity<Boolean> createNotecardSet(@RequestBody NotecardSet set) {
+    // Check if it exists
     NotecardSet possibleSet = notecardSetService.getNotecardSet(set.getId(), set.getNNumber());
     if (possibleSet != null) {
       return new ResponseEntity<>(false, HttpStatus.CONFLICT);
     }
 
-    // TODO create is missing values 
-    // int res = notecardSetService.createNotecardSet(set.getId(), set.getName(), set.getNNumber());;
+    int res = notecardSetService.createNotecardSet(set.getId(), set.getName(), set.getNNumber());;
 
-    // switch (res) {
-    //   case 0:
-    //     return new ResponseEntity<>(true, HttpStatus.OK);
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
 
-    //   case 1:
-    //     return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+      case 1:
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
 
-    //   case 2:
-    //   default:
-    //     return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-
-    return null;
+      case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

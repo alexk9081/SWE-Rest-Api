@@ -36,10 +36,9 @@ public class NotecardSetService {
 	 * @param setID 	the unique setID of the notecard set
 	 * @param name 		the name of the notecard set
 	 * @param nNumber 	the user's nNumber
+	 * @return 
 	 */
-	public void createNotecardSet(String id, String name, String nNumber) {
-		// TODO Create is missing values
-
+	public int createNotecardSet(String id, String name, String nNumber) {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number) " + " VALUES (?, ?, ?)");
 			pstmt.setString(1, id);
@@ -48,10 +47,14 @@ public class NotecardSetService {
 
 			int rows = pstmt.executeUpdate();
 			logger.info("Rows inserted: {}", rows);
+			
+			return rows > 0 ? 0 : 1;
 		}
 		catch(SQLException e) {
 			logger.error("Creating notecard set was unsucessful.");
 			e.printStackTrace();
+			
+			return 2;
 		}
 	}
 
@@ -113,6 +116,7 @@ public class NotecardSetService {
 		}
 		catch(Exception e){
 			logger.error("Creating notecard set object unsuccessful. Most likely set does not exist.");
+			e.printStackTrace();
 		}
 
 		return set;
@@ -201,10 +205,9 @@ public class NotecardSetService {
 	 * Uses set ID to delete a single notecard set object.
 	 * 
 	 * @param id 	the setID of the set
+	 * @return 
 	 */
-	public void deleteNotecardSet(String id) {
-		//TODO Missing n number, partial key
-
+	public int deleteNotecardSet(String id) {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM NOTECARD_SET " + "WHERE Set_ID = ?");
 
@@ -212,10 +215,14 @@ public class NotecardSetService {
 
 			int rows = pstmt.executeUpdate();
 			logger.info("Rows deleted: {}", rows);
+
+			return rows > 0 ? 0 : 1;
 		}
 		catch(SQLException e){
 			logger.error("Deleting notecard set was unsucessful.");
 			e.printStackTrace();
+
+			return 2;
 		}
 
 	}
@@ -291,5 +298,4 @@ public class NotecardSetService {
 		
 		return notecards;
 	}
-	
 }

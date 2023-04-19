@@ -52,10 +52,12 @@ public class PlannerTask {
     this.description = description;
   }
 
+  // Spicy
   public boolean isAllDayTrigger() {
     return this.allDayTrigger;
   }
 
+  // McDouble code
   public boolean getAllDayTrigger() {
     return this.allDayTrigger;
   }

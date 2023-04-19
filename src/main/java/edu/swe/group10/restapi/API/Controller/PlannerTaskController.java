@@ -39,11 +39,8 @@ public class PlannerTaskController {
   }
 
   @DeleteMapping("/planner/delete")
-  public ResponseEntity<Boolean> deleteUser(
-      @RequestParam String startDate,
-      @RequestParam String endDate,
-      @RequestParam String taskSubject,
-      @RequestParam String userID) {
+  public ResponseEntity<Boolean> deleteUser(@RequestParam String startDate, @RequestParam String endDate,
+      @RequestParam String taskSubject, @RequestParam String userID) {
     int res = plannerTaskService.deletePlannerTask(startDate, endDate, taskSubject, userID);
 
     switch (res) {
@@ -61,17 +58,21 @@ public class PlannerTaskController {
 
   @PostMapping("/planner/create")
   public ResponseEntity<Boolean> createUser(@RequestBody PlannerTask task) {
-    //TODO check if value already exists
+    // Check if value already exists
+    PlannerTask possibleTask = plannerTaskService.getSpecificPlannerTask(task.getUserID(), task.getStartDate(), task.getEndDate(), task.getTaskSubject());
+    if(possibleTask != null) {
+      return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+    }
 
-    //TODO Create is missing a lot of values
-    int res = plannerTaskService.createPlannerTask(task.getStartDate(), task.getEndDate(), task.getTaskSubject(), task.getUserID());
+    int res = plannerTaskService.createPlannerTask(task.getStartDate(), task.getEndDate(), task.getTaskSubject(),
+        task.getUserID(), task.getDescription(), task.getAllDayTrigger(), task.getRepeatValue());
 
     switch (res) {
       case 0:
         return new ResponseEntity<>(true, HttpStatus.OK);
 
       case 1:
-        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
 
       case 2:
       default:

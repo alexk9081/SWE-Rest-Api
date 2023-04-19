@@ -69,7 +69,7 @@ public class UserController {
         return new ResponseEntity<>(true, HttpStatus.OK);
 
       case 1:
-        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
 
       case 2:
       default:

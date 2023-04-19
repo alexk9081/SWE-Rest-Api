@@ -1,8 +1,10 @@
 package edu.swe.group10.restapi.API.Controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,62 +27,78 @@ public class NotecardController {
   }
 
   @GetMapping("/notecard/get")
-  public ResponseEntity<Notecard> getNotecard(@RequestParam String nNumber) {
-    // User user = userService.getUser(nNumber);
+  public ResponseEntity<Notecard> getNotecard(@RequestParam String noteID, @RequestParam String setID) {
+    Notecard notecard = notecardService.getNotecard(setID, noteID);
 
-    // if (user != null) {
-    // return new ResponseEntity<>(user, HttpStatus.OK);
-    // } else {
-    // return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
-    // }
-
-    // TODO Missing n number, partial key
-    return null;
+    if (notecard != null) {
+      return new ResponseEntity<>(notecard, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(notecard, HttpStatus.NOT_FOUND);
+    }
   }
 
   @DeleteMapping("/notecard/delete")
-  public ResponseEntity<Boolean> deleteUser(@RequestParam String nNumber) {
-    // int res = userService.deleteUser(nNumber);
+  public ResponseEntity<Boolean> deleteNotecard(@RequestParam String noteID, @RequestParam String setID) {
+    int res = notecardService.deleteNotecard(setID, noteID);
 
-    // switch (res) {
-    // case 0:
-    // return new ResponseEntity<>(true, HttpStatus.OK);
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
 
-    // case 1:
-    // return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+      case 1:
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
 
-    // case 2:
-    // default:
-    // return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
+      case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
-    // TODO Missing n number, partial key
-    return null;
+  @PatchMapping("/notecard/update")
+  public ResponseEntity<Boolean> updateNotecard(@RequestBody Notecard notecard) {
+    // Check if it exists
+    Notecard possibleCard = notecardService.getNotecard(notecard.getSetId(), notecard.getNoteId());
+    if (possibleCard == null) {
+      return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+    }
+
+    int res = notecardService.updateNotecard(notecard.getAnswer(), notecard.getQuestion(), notecard.getNoteId(),
+        notecard.getSetId());
+
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
+
+      case 1:
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+
+      case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @PostMapping("/notecard/create")
   public ResponseEntity<Boolean> createNotecard(@RequestBody Notecard notecard) {
-    // //Check if user exists
-    // User possibleUser = userService.getUser(user.getnNumber());
-    // if(possibleUser != null) {
-    // return new ResponseEntity<>(false, HttpStatus.CONFLICT);
-    // }
+    // Check if it exists
+    Notecard possibleCard = notecardService.getNotecard(notecard.getSetId(), notecard.getNoteId());
+    if (possibleCard != null) {
+      return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+    }
 
-    // int res = userService.createUser(user.getName(), user.getnNumber(), user.getImageUrl());
+    int res = notecardService.createNotecard(notecard.getSetId(), notecard.getNoteId(), notecard.getQuestion(),
+        notecard.getAnswer());
 
-    // switch (res) {
-    // case 0:
-    // return new ResponseEntity<>(true, HttpStatus.OK);
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
 
-    // case 1:
-    // return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+      case 1:
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
 
-    // case 2:
-    // default:
-    // return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-
-    // TODO Missing n number, partial key
-    return null;
+      case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

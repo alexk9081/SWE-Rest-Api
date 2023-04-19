@@ -37,9 +37,10 @@ public class NotecardService {
    *          notecard's question
    * @param answer
    *          notecard's answer
+   * @return
    * 
    */
-  public void createNotecard(String setID, String noteID, String question, String answer) {
+  public int createNotecard(String setID, String noteID, String question, String answer) {
     try {
       PreparedStatement pstmt = conn
           .prepareStatement("INSERT INTO NOTECARD (set_ID, notecard_id, question, answer) " + "VALUES (?, ?, ?, ?) ");
@@ -51,9 +52,12 @@ public class NotecardService {
       int rows = pstmt.executeUpdate();
 
       logger.info("Rows inserted: {}", rows);
+
+      return rows > 0 ? 0 : 1;
     } catch (SQLException e) {
       logger.error("Creating notecard was unsucessful.");
       e.printStackTrace();
+      return 2;
     }
 
   }
@@ -70,8 +74,6 @@ public class NotecardService {
    *         notecard found
    */
   public Notecard getNotecard(String setID, String noteID) {
-    // TODO Missing n number, partial key
-
     Notecard notecard = null;
 
     try {
@@ -110,8 +112,9 @@ public class NotecardService {
    *          the set ID the notecard is in
    * @param noteID
    *          the notecard ID of the notecard
+   * @return
    */
-  public void deleteNotecard(String setID, String noteID) {
+  public int deleteNotecard(String setID, String noteID) {
 
     try {
       PreparedStatement pstmt = conn.prepareStatement("DELETE FROM NOTECARD WHERE set_ID = ? AND notecard_ID = ?");
@@ -121,9 +124,11 @@ public class NotecardService {
       int rows = pstmt.executeUpdate();
 
       logger.info("Rows deleted: {}", rows);
+      return rows > 0 ? 0 : 1;
     } catch (SQLException e) {
       logger.error("Deleting notecard was unsucessful.");
       e.printStackTrace();
+      return 2;
     }
 
   }
@@ -142,8 +147,9 @@ public class NotecardService {
    *          the set ID the notecard is in
    * @param noteID
    *          the notecard ID of the notecard
+   * @return
    */
-  public void updateNotecard(String answer, String question, String noteID, String setID) {
+  public int updateNotecard(String answer, String question, String noteID, String setID) {
     try {
       PreparedStatement pstmt = conn.prepareStatement(
           "UPDATE NOTECARD " + "SET Question = ?, Answer = ?" + "WHERE notecard_ID = ? AND set_ID = ? ");
@@ -154,9 +160,12 @@ public class NotecardService {
 
       int rows = pstmt.executeUpdate();
       logger.info("Rows updated: {}", rows);
+
+      return rows > 0 ? 0 : 1;
     } catch (SQLException e) {
       logger.error("Updating notecard set was unsucessful.");
       e.printStackTrace();
+      return 2;
     }
   }
 }
