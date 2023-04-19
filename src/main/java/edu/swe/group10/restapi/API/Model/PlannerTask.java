@@ -81,4 +81,19 @@ public class PlannerTask {
   public void setUserID(String userID) {
     this.userID = userID;
   }
+
+
+  @Override
+  public String toString() {
+    return "{" +
+      " startDate='" + getStartDate() + "'" +
+      ", endDate='" + getEndDate() + "'" +
+      ", taskSubject='" + getTaskSubject() + "'" +
+      ", description='" + getDescription() + "'" +
+      ", allDayTrigger='" + isAllDayTrigger() + "'" +
+      ", repeatValue='" + getRepeatValue() + "'" +
+      ", userID='" + getUserID() + "'" +
+      "}";
+  }
+  
 }

@@ -72,4 +72,16 @@ public class NotecardSet {
     this.notecards = notecards;
   }
 
+
+  @Override
+  public String toString() {
+    return "{" +
+      " id='" + getId() + "'" +
+      ", name='" + getName() + "'" +
+      ", isPublic='" + isIsPublic() + "'" +
+      ", nNumber='" + getNNumber() + "'" +
+      ", description='" + getDescription() + "'" +
+      ", notecards='" + getNotecards() + "'" +
+      "}";
+  }
 }

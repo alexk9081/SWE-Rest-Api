@@ -45,4 +45,15 @@ public class Notecard {
     this.answer = answer;
   }
 
+
+  @Override
+  public String toString() {
+    return "{" +
+      " setid='" + getSetId() + "'" +
+      ", noteid='" + getNoteId() + "'" +
+      ", question='" + getQuestion() + "'" +
+      ", answer='" + getAnswer() + "'" +
+      "}";
+  }
+
 }
