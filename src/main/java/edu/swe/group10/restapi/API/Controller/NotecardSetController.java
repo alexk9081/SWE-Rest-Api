@@ -60,7 +60,7 @@ public class NotecardSetController {
     }
   }
 
-  @DeleteMapping("/user/delete")
+  @DeleteMapping("/notecardset/delete")
   public ResponseEntity<Boolean> deleteNotecardSet(@RequestParam String nNumber, @RequestParam String id) {
     int res = notecardSetService.deleteNotecardSet(id);
 
@@ -77,7 +77,7 @@ public class NotecardSetController {
     }
   }
 
-  @PostMapping("/user/create")
+  @PostMapping("/notecardset/create")
   public ResponseEntity<Boolean> createNotecardSet(@RequestBody NotecardSet set) {
     // Check if it exists
     NotecardSet possibleSet = notecardSetService.getNotecardSet(set.getId(), set.getNNumber());
