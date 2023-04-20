@@ -9,6 +9,10 @@ public class PlannerTask {
   private String repeatValue;
   private String userID;
 
+  public PlannerTask() {
+    super();
+  }
+
   public PlannerTask(String startDate, String endDate, String taskSubject, String description, boolean allDayTrigger,
       String repeatValue, String userID) {
     this.startDate = startDate;

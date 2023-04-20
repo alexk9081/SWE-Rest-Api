@@ -11,6 +11,10 @@ public class NotecardSet {
   private String description;
   private List<Notecard> notecards;
 
+  public NotecardSet() {
+    super();
+  }
+
   public NotecardSet(String id, String name, boolean isPublic, String nNumber, String description, List<Notecard> notecards) {
     this.id = id;
     this.name = name;

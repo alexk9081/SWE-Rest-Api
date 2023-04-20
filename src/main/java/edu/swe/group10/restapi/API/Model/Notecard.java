@@ -6,6 +6,10 @@ public class Notecard {
   private String question;
   private String answer;
 
+  public Notecard() {
+    super();
+  }
+
   public Notecard(String noteID, String question, String answer, String setID) {
     this.setid = setID;
     this.noteid = noteID;
