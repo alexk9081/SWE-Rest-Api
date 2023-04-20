@@ -55,7 +55,6 @@ public class UserController {
     }
   }
 
-  @CrossOrigin
   @PostMapping("/user/create")
   public ResponseEntity<Boolean> createUser(@RequestBody User user) {
     //Check if user exists
