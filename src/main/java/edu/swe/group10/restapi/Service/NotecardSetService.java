@@ -40,15 +40,19 @@ public class NotecardSetService {
 	 *          the user's nNumber
 	 * @return
 	 */
-	public int createNotecardSet(String id, String name, String nNumber) {
-		logger.info("Creating notecard set for {} with name {} and id {}", nNumber, name, id);
+	public int createNotecardSet(String id, String name, String nNumber, String description, boolean isPublic) {
+		logger.info("Creating notecard set for {} with name {}, description {}, isPublic {}, and id {}", nNumber, name, description, isPublic, id);
+
+		String isPublicString = isPublic ? "T" : "F";
 
 		try {
 			PreparedStatement pstmt = conn
-					.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number) " + " VALUES (?, ?, ?)");
+					.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number, Set_Description, Is_Public) " + " VALUES (?, ?, ?, ?, ?)");
 			pstmt.setString(1, id);
 			pstmt.setString(2, name);
 			pstmt.setString(3, nNumber);
+			pstmt.setString(4, description);
+			pstmt.setString(5, isPublicString);
 
 			int rows = pstmt.executeUpdate();
 			logger.info("Rows inserted: {}", rows);
