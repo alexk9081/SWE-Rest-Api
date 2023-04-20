@@ -64,7 +64,7 @@ public class UserController {
     }
 
 
-    int res = userService.createUser(user.getName(), user.getnNumber(), user.getImageUrl());
+    int res = userService.createUser(user.getnNumber(), user.getName(), user.getImageUrl());
 
     switch (res) {
       case 0:
