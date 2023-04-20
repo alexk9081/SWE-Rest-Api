@@ -17,6 +17,7 @@ import edu.swe.group10.restapi.Service.UserService;
  * This class defines the interface the frontend will use
  * This class will also handle the return values and calling functions
  */
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -54,6 +55,7 @@ public class UserController {
     }
   }
 
+  @CrossOrigin
   @PostMapping("/user/create")
   public ResponseEntity<Boolean> createUser(@RequestBody User user) {
     //Check if user exists
