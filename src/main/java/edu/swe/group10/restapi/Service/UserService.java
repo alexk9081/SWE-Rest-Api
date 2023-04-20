@@ -95,7 +95,7 @@ public class UserService {
         userArr[2] = result.getString("image_url");
 
         // Constructor's Order: nNumber, name, url
-        user = new User(userArr[0], userArr[1], userArr[2]);
+        user = new User(userArr[1], userArr[0], userArr[2]);
       }
 
     } catch (SQLException e) {
