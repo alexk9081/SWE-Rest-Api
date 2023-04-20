@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import edu.swe.group10.restapi.Service.PlannerTaskService;
  * This class defines the interface the frontend will use
  * This class will also handle the return values and calling functions
  */
+@CrossOrigin(origins ={"http://localhost:3000", "https://main--cen4010-group-project.netlify.app/", "https://www.alexkeo.com/"})
 @RestController
 public class PlannerTaskController {
 
