@@ -11,6 +11,10 @@ public class User {
 
   private Logger logger = AppLogger.getInstance().getLogger();
 
+  public User() {
+    super();
+  }
+
   public User(String nNumber, String name, String url) {
     this.nNumber = nNumber;
     this.name = name;
@@ -45,14 +49,13 @@ public class User {
     this.name = name;
   }
 
-
   @Override
   public String toString() {
     return "{" +
-      " nNumber='" + getnNumber() + "'" +
-      ", name='" + getName() + "'" +
-      ", imageUrl='" + getImageUrl() + "'" +
-      "}";
+        " nNumber='" + getnNumber() + "'" +
+        ", name='" + getName() + "'" +
+        ", imageUrl='" + getImageUrl() + "'" +
+        "}";
   }
 
 }
