@@ -17,7 +17,7 @@ import edu.swe.group10.restapi.Service.UserService;
  * This class defines the interface the frontend will use
  * This class will also handle the return values and calling functions
  */
-@CrossOrigin(origins ={"http://localhost:3000", "https://main--cen4010-group-project.netlify.app/", "https://www.alexkeo.com/"})
+@CrossOrigin
 @RestController
 public class UserController {
 
