@@ -2,6 +2,7 @@ package edu.swe.group10.restapi.API.Controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.swe.group10.restapi.AppLogger;
 import edu.swe.group10.restapi.API.Model.NotecardSet;
 import edu.swe.group10.restapi.Service.NotecardSetService;
 
@@ -24,8 +26,10 @@ import edu.swe.group10.restapi.Service.NotecardSetService;
 public class NotecardSetController {
 
   private NotecardSetService notecardSetService;
+  private Logger logger;
 
   public NotecardSetController(NotecardSetService notecardSetService) {
+    logger = AppLogger.getInstance().getLogger();
     this.notecardSetService = notecardSetService;
   }
 
@@ -82,6 +86,8 @@ public class NotecardSetController {
   @PostMapping("/notecardset/create")
   public ResponseEntity<Boolean> createNotecardSet(@RequestBody NotecardSet set) {
     // Check if it exists
+    logger.info(set.toString());
+
     NotecardSet possibleSet = notecardSetService.getNotecardSet(set.getId(), set.getNNumber());
     if (possibleSet != null) {
       return new ResponseEntity<>(false, HttpStatus.CONFLICT);
