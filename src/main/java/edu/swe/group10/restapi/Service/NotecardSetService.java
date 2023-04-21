@@ -14,6 +14,7 @@ import edu.swe.group10.restapi.AppLogger;
 import edu.swe.group10.restapi.DatabaseConnection;
 import edu.swe.group10.restapi.API.Model.Notecard;
 import edu.swe.group10.restapi.API.Model.NotecardSet;
+import edu.swe.group10.restapi.API.Model.User;
 
 /**
  * Manages the creation, editing, deleting, and getting of notecard set information.
@@ -41,13 +42,15 @@ public class NotecardSetService {
 	 * @return
 	 */
 	public int createNotecardSet(String id, String name, String nNumber, String description, boolean isPublic) {
-		logger.info("Creating notecard set for {} with name {}, description {}, isPublic {}, and id {}", nNumber, name, description, isPublic, id);
+		logger.info("Creating notecard set for {} with name {}, description {}, isPublic {}, and id {}", nNumber, name,
+				description, isPublic, id);
 
 		String isPublicString = isPublic ? "T" : "F";
 
 		try {
 			PreparedStatement pstmt = conn
-					.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number, Set_Description, Is_Public) " + " VALUES (?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number, Set_Description, Is_Public) "
+							+ " VALUES (?, ?, ?, ?, ?)");
 			pstmt.setString(1, id);
 			pstmt.setString(2, name);
 			pstmt.setString(3, nNumber);
@@ -88,12 +91,14 @@ public class NotecardSetService {
 		String setName = null;
 		String setDescription = null;
 		boolean isPublic = false; // unless set to true
+		String userName = null;
+		String userImg = null;
 
-		/*
+		/**
 		 * Step 1: get basic information of set
 		 */
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM NOTECARD_SET WHERE Set_ID = ? AND N_Number = ?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM NOTECARD_SET LEFT JOIN student ON student.n_number = notecard_set.n_number WHERE Set_ID = ? AND notecard_set.n_number = ?");
 
 			pstmt.setString(1, id);
 			pstmt.setString(2, nNumber);
@@ -106,6 +111,8 @@ public class NotecardSetService {
 				setName = result.getString("Set_Name");
 				setDescription = result.getString("Set_Description");
 				isPublic = result.getString("Is_Public").equals("T");
+				userName = result.getString("name");
+				userImg = result.getString("image_url");
 			}
 		} catch (SQLException e) {
 			logger.error("Getting notecard set was unsucessful. Specifically getting the notecard set's information.");
@@ -123,7 +130,7 @@ public class NotecardSetService {
 		 */
 
 		try {
-			set = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, notecards);
+			set = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, notecards, new User(nNumber, userName, userImg));
 		} catch (Exception e) {
 			logger.error("Creating notecard set object unsuccessful. Most likely set does not exist.");
 			e.printStackTrace();
@@ -142,8 +149,10 @@ public class NotecardSetService {
 		List<NotecardSet> publicSets = new ArrayList<>();
 
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM NOTECARD_SET WHERE is_public = 'T'");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"SELECT * FROM NOTECARD_SET LEFT JOIN student ON student.n_number = notecard_set.n_number WHERE is_public = 'T'");
 
+			logger.info("Querying all public notecard sets");
 			ResultSet result = pstmt.executeQuery();
 
 			while (result.next()) {
@@ -155,10 +164,13 @@ public class NotecardSetService {
 				String setName = result.getString("Set_Name");
 				String setDescription = result.getString("Set_Description");
 				boolean isPublic = result.getString("Is_Public").equals("T");
-
+				String userName = result.getString("name");
+				String userNNumber = result.getString("n_number");
+				String userImg = result.getString("image_url");
 				// currentNotecards = getAllNotecardsOfSet(setID);
 
-				currentSet = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, currentNotecards);
+				currentSet = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, currentNotecards,
+						new User(userNNumber, userName, userImg));
 
 				publicSets.add(currentSet);
 			}
@@ -166,6 +178,8 @@ public class NotecardSetService {
 			logger.error("Getting all public sets was unsuccessful.");
 			e.printStackTrace();
 		}
+
+		logger.info("{} public sets found", publicSets.size());
 
 		return publicSets;
 	}
@@ -181,7 +195,8 @@ public class NotecardSetService {
 		List<NotecardSet> usersSets = new ArrayList<>();
 
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM NOTECARD_SET WHERE n_Number = ?");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"SELECT * FROM NOTECARD_SET LEFT JOIN student ON student.n_number = notecard_set.n_number WHERE notecard_set.n_Number = ?");
 
 			pstmt.setString(1, nNumber);
 
@@ -196,10 +211,13 @@ public class NotecardSetService {
 				String setName = result.getString("Set_Name");
 				String setDescription = result.getString("Set_Description");
 				boolean isPublic = result.getString("Is_Public").equals("T");
+				String userName = result.getString("name");
+				String userImg = result.getString("image_url");
 
 				// currentNotecards = getAllNotecardsOfSet(setID);
 
-				currentSet = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, currentNotecards);
+				currentSet = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, currentNotecards,
+						new User(nNumber, userName, userImg));
 
 				usersSets.add(currentSet);
 			}

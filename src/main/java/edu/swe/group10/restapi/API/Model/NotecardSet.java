@@ -10,18 +10,20 @@ public class NotecardSet {
   private String nNumber;
   private String description;
   private List<Notecard> notecards;
+  private User creator;
 
   public NotecardSet() {
     super();
   }
 
-  public NotecardSet(String id, String name, boolean isPublic, String nNumber, String description, List<Notecard> notecards) {
+  public NotecardSet(String id, String name, boolean isPublic, String nNumber, String description, List<Notecard> notecards, User creator) {
     this.id = id;
     this.name = name;
     this.isPublic = isPublic;
     this.nNumber = nNumber;
     this.description = description;
     this.notecards = notecards;
+    this.creator = creator;
   }
 
   public String getId() {
@@ -76,6 +78,13 @@ public class NotecardSet {
     this.notecards = notecards;
   }
 
+  public User getCreator() {
+    return this.creator;
+  }
+
+  public void setCreator(User creator) {
+    this.creator = creator;
+  }
 
   @Override
   public String toString() {
@@ -86,6 +95,7 @@ public class NotecardSet {
       ", nNumber='" + getNNumber() + "'" +
       ", description='" + getDescription() + "'" +
       ", notecards='" + getNotecards() + "'" +
+      ", creator='" + getCreator() + "'" +
       "}";
   }
 }
