@@ -88,12 +88,12 @@ public class NotecardSetController {
     // Check if it exists
     logger.info(set.toString());
 
-    NotecardSet possibleSet = notecardSetService.getNotecardSet(set.getId(), set.getNNumber());
+    NotecardSet possibleSet = notecardSetService.getNotecardSet(set.getId(), set.getCreator().getnNumber());
     if (possibleSet != null) {
       return new ResponseEntity<>(false, HttpStatus.CONFLICT);
     }
 
-    int res = notecardSetService.createNotecardSet(set.getId(), set.getName(), set.getNNumber(), set.getDescription(), set.getIsPublic(), set.getImageUrl());
+    int res = notecardSetService.createNotecardSet(set.getId(), set.getName(), set.getCreator().getnNumber(), set.getDescription(), set.getIsPublic(), set.getImageUrl());
 
     switch (res) {
       case 0:
