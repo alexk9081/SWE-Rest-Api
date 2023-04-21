@@ -41,7 +41,8 @@ public class NotecardSetService {
 	 *          the user's nNumber
 	 * @return
 	 */
-	public int createNotecardSet(String id, String name, String nNumber, String description, boolean isPublic, String imgUrl) {
+	public int createNotecardSet(String id, String name, String nNumber, String description, boolean isPublic,
+			String imgUrl) {
 		logger.info("Creating notecard set for {} with name {}, description {}, isPublic {}, and id {}", nNumber, name,
 				description, isPublic, id);
 
@@ -49,8 +50,9 @@ public class NotecardSetService {
 
 		try {
 			PreparedStatement pstmt = conn
-					.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number, Set_Description, Is_Public, set_image_url) "
-							+ " VALUES (?, ?, ?, ?, ?, ?)");
+					.prepareStatement(
+							"INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number, Set_Description, Is_Public, set_image_url) "
+									+ " VALUES (?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, id);
 			pstmt.setString(2, name);
 			pstmt.setString(3, nNumber);
@@ -100,7 +102,8 @@ public class NotecardSetService {
 		 * Step 1: get basic information of set
 		 */
 		try {
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM NOTECARD_SET LEFT JOIN student ON student.n_number = notecard_set.n_number WHERE Set_ID = ? AND notecard_set.n_number = ?");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"SELECT * FROM NOTECARD_SET LEFT JOIN student ON student.n_number = notecard_set.n_number WHERE Set_ID = ? AND notecard_set.n_number = ?");
 
 			pstmt.setString(1, id);
 			pstmt.setString(2, nNumber);
@@ -122,24 +125,27 @@ public class NotecardSetService {
 			logger.error("Getting notecard set was unsucessful. Specifically getting the notecard set's information.");
 			e.printStackTrace();
 		}
+		
+		if (setID != null) {
+			/*
+			 * Step 2: Get notecards for corresponding set.
+			 */
 
-		/*
-		 * Step 2: Get notecards for corresponding set.
-		 */
+			notecards = getAllNotecardsOfSet(id);
+			logger.info("{} notecards found", notecards.size());
 
-		notecards = getAllNotecardsOfSet(id);
-		logger.info("{} notecards found", notecards.size());
+			/*
+			 * Step 3: Now we have the set information and the notecards the set has, we have to create the set and return it
+			 */
 
-		/*
-		 * Step 3: Now we have the set information and the notecards the set has, we have to create the set and return it
-		 */
-
-		try {
-			logger.info("Building set");
-			set = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, notecards, new User(nNumber, userName, userImg), setImg);
-		} catch (Exception e) {
-			logger.error("Creating notecard set object unsuccessful. Most likely set does not exist.");
-			e.printStackTrace();
+			try {
+				logger.info("Building set");
+				set = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, notecards,
+						new User(nNumber, userName, userImg), setImg);
+			} catch (Exception e) {
+				logger.error("Creating notecard set object unsuccessful. Most likely set does not exist.");
+				e.printStackTrace();
+			}
 		}
 
 		return set;
