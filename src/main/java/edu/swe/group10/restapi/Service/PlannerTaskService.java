@@ -247,8 +247,9 @@ public class PlannerTaskService {
    *          the most current repeat value
    * @param userID
    *          the user's nNumber
+   * @return 
    */
-  public void updatePlannerTask(String newStartDate,
+  public int updatePlannerTask(String newStartDate,
       String newEndDate, String newTaskSubject, String startDate, String endDate, String taskSubject,
       String description, boolean allDayTrigger, String repeatValue, String userID) {
     logger.info(
@@ -282,9 +283,13 @@ public class PlannerTaskService {
 
       int rows = pstmt.executeUpdate();
       logger.info("Rows updated: {}", rows);
+
+      return rows > 0 ? 0 : 1;
     } catch (SQLException e) {
       logger.error("Updating planner task was unsucessful.");
       e.printStackTrace();
+
+      return 1;
     }
 
   }

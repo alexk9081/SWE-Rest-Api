@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +42,7 @@ public class PlannerTaskController {
   }
 
   @DeleteMapping("/planner/delete")
-  public ResponseEntity<Boolean> deleteUser(@RequestParam String startDate, @RequestParam String endDate,
+  public ResponseEntity<Boolean> deleteTask(@RequestParam String startDate, @RequestParam String endDate,
       @RequestParam String taskSubject, @RequestParam String userID) {
     int res = plannerTaskService.deletePlannerTask(startDate, endDate, taskSubject, userID);
 
@@ -59,7 +60,7 @@ public class PlannerTaskController {
   }
 
   @PostMapping("/planner/create")
-  public ResponseEntity<Boolean> createUser(@RequestBody PlannerTask task) {
+  public ResponseEntity<Boolean> createTask(@RequestBody PlannerTask task) {
     // Check if value already exists
     PlannerTask possibleTask = plannerTaskService.getSpecificPlannerTask(task.getUserID(), task.getStartDate(), task.getEndDate(), task.getTaskSubject());
     if(possibleTask != null) {
@@ -77,6 +78,23 @@ public class PlannerTaskController {
         return new ResponseEntity<>(false, HttpStatus.CONFLICT);
 
       case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PatchMapping("/planner/update")
+  public ResponseEntity<Boolean> updateTask(@RequestBody PlannerTask[] notecard) {
+    PlannerTask oldTask = notecard[0];
+    PlannerTask newTask = notecard[1];
+
+    int res = plannerTaskService.updatePlannerTask(newTask.getStartDate(), newTask.getEndDate(), newTask.getTaskSubject(), oldTask.getStartDate(), oldTask.getEndDate(), oldTask.getTaskSubject(), newTask.getDescription(), newTask.getAllDayTrigger(), newTask.getRepeatValue(), newTask.getUserID());
+
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
+
+        case 1:
       default:
         return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
     }
