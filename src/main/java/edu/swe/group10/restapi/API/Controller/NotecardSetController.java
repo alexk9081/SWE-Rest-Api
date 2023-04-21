@@ -90,6 +90,7 @@ public class NotecardSetController {
 
     NotecardSet possibleSet = notecardSetService.getNotecardSet(set.getId(), set.getCreator().getnNumber());
     if (possibleSet != null) {
+			logger.info("Set {} already exists", set.getId());
       return new ResponseEntity<>(false, HttpStatus.CONFLICT);
     }
 

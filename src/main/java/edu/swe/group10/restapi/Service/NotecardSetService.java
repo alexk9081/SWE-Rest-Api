@@ -105,6 +105,7 @@ public class NotecardSetService {
 			pstmt.setString(1, id);
 			pstmt.setString(2, nNumber);
 
+			logger.info("Querying database for notecards");
 			ResultSet result = pstmt.executeQuery();
 
 			if (result.next()) {
@@ -127,12 +128,14 @@ public class NotecardSetService {
 		 */
 
 		notecards = getAllNotecardsOfSet(id);
+		logger.info("{} notecards found", notecards.size());
 
 		/*
 		 * Step 3: Now we have the set information and the notecards the set has, we have to create the set and return it
 		 */
 
 		try {
+			logger.info("Building set");
 			set = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, notecards, new User(nNumber, userName, userImg), setImg);
 		} catch (Exception e) {
 			logger.error("Creating notecard set object unsuccessful. Most likely set does not exist.");
