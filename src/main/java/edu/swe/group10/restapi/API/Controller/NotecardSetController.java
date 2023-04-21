@@ -87,7 +87,7 @@ public class NotecardSetController {
       return new ResponseEntity<>(false, HttpStatus.CONFLICT);
     }
 
-    int res = notecardSetService.createNotecardSet(set.getId(), set.getName(), set.getNNumber(), set.getDescription(), set.getIsPublic());
+    int res = notecardSetService.createNotecardSet(set.getId(), set.getName(), set.getNNumber(), set.getDescription(), set.getIsPublic(), set.getImageUrl());
 
     switch (res) {
       case 0:

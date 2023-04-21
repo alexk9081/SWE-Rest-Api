@@ -9,6 +9,8 @@ public class NotecardSet {
   private boolean isPublic;
   private String nNumber;
   private String description;
+  private String imageUrl;
+
   private List<Notecard> notecards;
   private User creator;
 
@@ -16,7 +18,8 @@ public class NotecardSet {
     super();
   }
 
-  public NotecardSet(String id, String name, boolean isPublic, String nNumber, String description, List<Notecard> notecards, User creator) {
+  public NotecardSet(String id, String name, boolean isPublic, String nNumber, String description,
+      List<Notecard> notecards, User creator, String imageUrl) {
     this.id = id;
     this.name = name;
     this.isPublic = isPublic;
@@ -24,6 +27,7 @@ public class NotecardSet {
     this.description = description;
     this.notecards = notecards;
     this.creator = creator;
+    this.imageUrl = imageUrl;
   }
 
   public String getId() {
@@ -86,16 +90,25 @@ public class NotecardSet {
     this.creator = creator;
   }
 
+  public String getImageUrl() {
+    return this.imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
   @Override
   public String toString() {
     return "{" +
-      " id='" + getId() + "'" +
-      ", name='" + getName() + "'" +
-      ", isPublic='" + isIsPublic() + "'" +
-      ", nNumber='" + getNNumber() + "'" +
-      ", description='" + getDescription() + "'" +
-      ", notecards='" + getNotecards() + "'" +
-      ", creator='" + getCreator() + "'" +
-      "}";
+        " id='" + getId() + "'" +
+        ", name='" + getName() + "'" +
+        ", isPublic='" + isIsPublic() + "'" +
+        ", nNumber='" + getNNumber() + "'" +
+        ", description='" + getDescription() + "'" +
+        ", imageUrl='" + getImageUrl() + "'" +
+        ", notecards='" + getNotecards() + "'" +
+        ", creator='" + getCreator() + "'" +
+        "}";
   }
 }

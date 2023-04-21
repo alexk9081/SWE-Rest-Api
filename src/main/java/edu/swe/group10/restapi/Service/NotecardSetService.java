@@ -41,7 +41,7 @@ public class NotecardSetService {
 	 *          the user's nNumber
 	 * @return
 	 */
-	public int createNotecardSet(String id, String name, String nNumber, String description, boolean isPublic) {
+	public int createNotecardSet(String id, String name, String nNumber, String description, boolean isPublic, String imgUrl) {
 		logger.info("Creating notecard set for {} with name {}, description {}, isPublic {}, and id {}", nNumber, name,
 				description, isPublic, id);
 
@@ -49,13 +49,14 @@ public class NotecardSetService {
 
 		try {
 			PreparedStatement pstmt = conn
-					.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number, Set_Description, Is_Public) "
-							+ " VALUES (?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO NOTECARD_SET (Set_ID, Set_Name, N_Number, Set_Description, Is_Public, set_image_url) "
+							+ " VALUES (?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, id);
 			pstmt.setString(2, name);
 			pstmt.setString(3, nNumber);
 			pstmt.setString(4, description);
 			pstmt.setString(5, isPublicString);
+			pstmt.setString(6, imgUrl);
 
 			int rows = pstmt.executeUpdate();
 			logger.info("Rows inserted: {}", rows);
@@ -93,6 +94,7 @@ public class NotecardSetService {
 		boolean isPublic = false; // unless set to true
 		String userName = null;
 		String userImg = null;
+		String setImg = null;
 
 		/**
 		 * Step 1: get basic information of set
@@ -113,6 +115,7 @@ public class NotecardSetService {
 				isPublic = result.getString("Is_Public").equals("T");
 				userName = result.getString("name");
 				userImg = result.getString("image_url");
+				setImg = result.getString("set_image_url");
 			}
 		} catch (SQLException e) {
 			logger.error("Getting notecard set was unsucessful. Specifically getting the notecard set's information.");
@@ -130,7 +133,7 @@ public class NotecardSetService {
 		 */
 
 		try {
-			set = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, notecards, new User(nNumber, userName, userImg));
+			set = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, notecards, new User(nNumber, userName, userImg), setImg);
 		} catch (Exception e) {
 			logger.error("Creating notecard set object unsuccessful. Most likely set does not exist.");
 			e.printStackTrace();
@@ -167,10 +170,11 @@ public class NotecardSetService {
 				String userName = result.getString("name");
 				String userNNumber = result.getString("n_number");
 				String userImg = result.getString("image_url");
+				String setImg = result.getString("set_image_url");
 				// currentNotecards = getAllNotecardsOfSet(setID);
 
 				currentSet = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, currentNotecards,
-						new User(userNNumber, userName, userImg));
+						new User(userNNumber, userName, userImg), setImg);
 
 				publicSets.add(currentSet);
 			}
@@ -213,11 +217,12 @@ public class NotecardSetService {
 				boolean isPublic = result.getString("Is_Public").equals("T");
 				String userName = result.getString("name");
 				String userImg = result.getString("image_url");
+				String setImg = result.getString("set_image_url");
 
 				// currentNotecards = getAllNotecardsOfSet(setID);
 
 				currentSet = new NotecardSet(setID, setName, isPublic, studentNum, setDescription, currentNotecards,
-						new User(nNumber, userName, userImg));
+						new User(nNumber, userName, userImg), setImg);
 
 				usersSets.add(currentSet);
 			}
