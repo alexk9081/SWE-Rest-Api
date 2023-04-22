@@ -85,27 +85,27 @@ public class NotecardController {
   }
 
   @PostMapping("/notecard/create")
-  public ResponseEntity<Boolean> createNotecard(@RequestBody Notecard notecard) {
+  public ResponseEntity<Boolean> createNotecard(@RequestBody String notecard) {
     logger.info("Creating notecard {}", notecard);
     // Check if it exists
-    Notecard possibleCard = notecardService.getNotecard(notecard.getSetId(), notecard.getNoteId());
-    if (possibleCard != null) {
-      return new ResponseEntity<>(false, HttpStatus.CONFLICT);
-    }
+    // Notecard possibleCard = notecardService.getNotecard(notecard.getSetId(), notecard.getNoteId());
+    // if (possibleCard != null) {
+    //   return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+    // }
 
-    int res = notecardService.createNotecard(notecard.getSetId(), notecard.getNoteId(), notecard.getQuestion(),
-        notecard.getAnswer());
+    // int res = notecardService.createNotecard(notecard.getSetId(), notecard.getNoteId(), notecard.getQuestion(),
+    //     notecard.getAnswer());
 
-    switch (res) {
-      case 0:
-        return new ResponseEntity<>(true, HttpStatus.OK);
+    // switch (res) {
+    //   case 0:
+    //     return new ResponseEntity<>(true, HttpStatus.OK);
 
-      case 1:
-        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+    //   case 1:
+    //     return new ResponseEntity<>(false, HttpStatus.CONFLICT);
 
-      case 2:
-      default:
+    //   case 2:
+    //   default:
         return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    // }
   }
 }
