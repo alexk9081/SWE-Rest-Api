@@ -1,5 +1,6 @@
 package edu.swe.group10.restapi.API.Controller;
 
+import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.swe.group10.restapi.AppLogger;
 import edu.swe.group10.restapi.API.Model.Notecard;
 import edu.swe.group10.restapi.Service.NotecardService;
 
@@ -22,9 +24,11 @@ import edu.swe.group10.restapi.Service.NotecardService;
 @RestController
 public class NotecardController {
 
+  private Logger logger;
   private NotecardService notecardService;
 
   public NotecardController(NotecardService notecardService) {
+    logger = AppLogger.getInstance().getLogger();
     this.notecardService = notecardService;
   }
 
@@ -82,6 +86,7 @@ public class NotecardController {
 
   @PostMapping("/notecard/create")
   public ResponseEntity<Boolean> createNotecard(@RequestBody Notecard notecard) {
+    logger.info("Creating notecard {}", notecard);
     // Check if it exists
     Notecard possibleCard = notecardService.getNotecard(notecard.getSetId(), notecard.getNoteId());
     if (possibleCard != null) {

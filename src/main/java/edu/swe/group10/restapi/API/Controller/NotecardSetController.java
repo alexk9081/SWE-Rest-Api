@@ -86,7 +86,7 @@ public class NotecardSetController {
   @PostMapping("/notecardset/create")
   public ResponseEntity<Boolean> createNotecardSet(@RequestBody NotecardSet set) {
     // Check if it exists
-    logger.info(set.toString());
+    logger.info("Creating set {}", set);
 
     NotecardSet possibleSet = notecardSetService.getNotecardSet(set.getId(), set.getCreator().getnNumber());
     if (possibleSet != null) {
