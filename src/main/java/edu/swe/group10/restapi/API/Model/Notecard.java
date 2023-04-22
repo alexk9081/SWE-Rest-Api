@@ -5,7 +5,7 @@ public class Notecard {
   private String noteid;
   private String question;
   private String answer;
-
+  
   public Notecard() {
     super();
   }
@@ -49,6 +49,21 @@ public class Notecard {
     this.answer = answer;
   }
 
+  public String getSetid() {
+    return this.setid;
+  }
+
+  public void setSetid(String setid) {
+    this.setid = setid;
+  }
+
+  public String getNoteid() {
+    return this.noteid;
+  }
+
+  public void setNoteid(String noteid) {
+    this.noteid = noteid;
+  }
 
   @Override
   public String toString() {
