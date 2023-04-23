@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,6 +66,29 @@ public class UserController {
 
 
     int res = userService.createUser(user.getnNumber(), user.getName(), user.getImageUrl());
+
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
+
+      case 1:
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+
+      case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PatchMapping("/user/update")
+  public ResponseEntity<Boolean> updateUser(@RequestBody User user) {
+    // Check if it exists
+    User possibleUser = userService.getUser(user.getnNumber());
+    if (possibleUser == null) {
+      return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+    }
+
+    int res = userService.updateUser(user.getnNumber(), user.getImageUrl(), user.getName());
 
     switch (res) {
       case 0:

@@ -191,4 +191,25 @@ public class UserService {
       e.printStackTrace();
     }
   }
+
+  public int updateUser(String nNumber, String newURL, String newName) {
+    logger.info("Updating user with id {}, name {}, and img url {}", nNumber, newName, newURL);
+
+    try {
+      PreparedStatement pstmt = conn.prepareStatement(
+          "UPDATE STUDENT " + "SET image_url = ?, name = ?" + "WHERE N_Number = ?");
+      pstmt.setString(1, newURL);
+      pstmt.setString(2, newName);
+      pstmt.setString(3, nNumber);
+
+      int rows = pstmt.executeUpdate();
+      logger.info("Rows updated: {}", rows);
+
+      return rows > 0 ? 0 : 1;
+    } catch (SQLException e) {
+      logger.error("Updating user was unsucessful.");
+      e.printStackTrace();
+      return 2;
+    }
+  }
 }
