@@ -287,20 +287,21 @@ public class NotecardSetService {
 	 *          the set's ID
 	 * @return 
 	 */
-	public int updateNotecardSet(boolean isPublic, String name, String description, String nNumber, String id) {
+	public int updateNotecardSet(boolean isPublic, String name, String description, String nNumber, String id, String imageUrl) {
 		logger.info("Updating notecard with id {}", id);
 
 		String isPublicString = isPublic ? "T" : "F";
 
 		try {
 			PreparedStatement pstmt = conn.prepareStatement("UPDATE NOTECARD_SET "
-					+ "SET Is_Public = ?, Set_Name = ?, Set_Description = ?" + " WHERE N_Number = ? AND Set_ID = ? ");
+					+ "SET Is_Public = ?, Set_Name = ?, Set_Description = ?, set_image_url = ?" + " WHERE N_Number = ? AND Set_ID = ? ");
 
 			pstmt.setString(1, isPublicString);
 			pstmt.setString(2, name);
 			pstmt.setString(3, description);
-			pstmt.setString(4, nNumber);
-			pstmt.setString(5, id);
+			pstmt.setString(4, imageUrl);
+			pstmt.setString(5, nNumber);
+			pstmt.setString(6, id);
 
 			int rows = pstmt.executeUpdate();
 			logger.info("Rows updated: {}", rows);

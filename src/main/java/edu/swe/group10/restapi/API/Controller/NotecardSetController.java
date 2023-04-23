@@ -118,7 +118,7 @@ public class NotecardSetController {
       return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
 
-    int res = notecardSetService.updateNotecardSet(notecardSet.getIsPublic(), notecardSet.getName(), notecardSet.getDescription(), notecardSet.getNNumber(), notecardSet.getId());
+    int res = notecardSetService.updateNotecardSet(notecardSet.getIsPublic(), notecardSet.getName(), notecardSet.getDescription(), notecardSet.getNNumber(), notecardSet.getId(), notecardSet.getImageUrl());
 
     switch (res) {
       case 0:
