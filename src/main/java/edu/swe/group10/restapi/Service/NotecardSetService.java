@@ -285,8 +285,9 @@ public class NotecardSetService {
 	 *          the set's creator's nNumber
 	 * @param id
 	 *          the set's ID
+	 * @return 
 	 */
-	public void updateNotecardSet(boolean isPublic, String name, String description, String nNumber, String id) {
+	public int updateNotecardSet(boolean isPublic, String name, String description, String nNumber, String id) {
 		logger.info("Updating notecard with id {}", id);
 
 		String isPublicString = isPublic ? "T" : "F";
@@ -303,9 +304,13 @@ public class NotecardSetService {
 
 			int rows = pstmt.executeUpdate();
 			logger.info("Rows updated: {}", rows);
+
+      return rows > 0 ? 0 : 1;
 		} catch (SQLException e) {
 			logger.error("Updating notecard set was unsucessful.");
 			e.printStackTrace();
+
+      return 2;
 		}
 	}
 

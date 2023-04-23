@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -95,6 +96,29 @@ public class NotecardSetController {
     }
 
     int res = notecardSetService.createNotecardSet(set.getId(), set.getName(), set.getCreator().getnNumber(), set.getDescription(), set.getIsPublic(), set.getImageUrl());
+
+    switch (res) {
+      case 0:
+        return new ResponseEntity<>(true, HttpStatus.OK);
+
+      case 1:
+        return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+
+      case 2:
+      default:
+        return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @PatchMapping("/notecardset/update")
+  public ResponseEntity<Boolean> updateNotecardSet(@RequestBody NotecardSet notecardSet) {
+    // Check if it exists
+    NotecardSet possibleSet = notecardSetService.getNotecardSet(notecardSet.getId(), notecardSet.getNNumber());
+    if (possibleSet == null) {
+      return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+    }
+
+    int res = notecardSetService.updateNotecardSet(notecardSet.getIsPublic(), notecardSet.getName(), notecardSet.getDescription(), notecardSet.getNNumber(), notecardSet.getId());
 
     switch (res) {
       case 0:
