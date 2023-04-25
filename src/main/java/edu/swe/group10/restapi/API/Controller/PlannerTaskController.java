@@ -20,7 +20,7 @@ import edu.swe.group10.restapi.Service.PlannerTaskService;
  * This class defines the interface the frontend will use
  * This class will also handle the return values and calling functions
  */
-@CrossOrigin(origins ={"http://localhost:3000", "https://main--cen4010-group-project.netlify.app/", "https://www.alexkeo.com/", "https://www.unfospreytools.com/"})
+@CrossOrigin(origins ={"https://main--cen4010-group-project.netlify.app/", "https://www.alexkeo.com/", "https://www.unfospreytools.com/"})
 @RestController
 public class PlannerTaskController {
 
